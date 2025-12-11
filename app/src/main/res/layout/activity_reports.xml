@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F1F8E9">
+
+    <!-- Шапка -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#4CAF50"
+        android:padding="12dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="📊 Отчеты"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center" />
+
+        <Button
+            android:id="@+id/btnBack"
+            android:layout_width="60dp"
+            android:layout_height="50dp"
+            android:text="←"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:background="#FF5722"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <!-- Отчеты -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:gravity="center"
+        android:background="#F1F8E9">
+
+        <!-- Кнопки периодов -->
+        <Button
+            android:id="@+id/btnToday"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:text="📅 Отчет за сегодня"
+            android:textSize="16sp"
+            android:background="#4CAF50"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:layout_marginBottom="15dp" />
+
+        <Button
+            android:id="@+id/btnWeek"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:text="📅 Отчет за неделю"
+            android:textSize="16sp"
+            android:background="#388E3C"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:layout_marginBottom="15dp" />
+
+        <Button
+            android:id="@+id/btnMonth"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:text="📅 Отчет за месяц"
+            android:textSize="16sp"
+            android:background="#2E7D32"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:layout_marginBottom="30dp" />
+
+        <!-- Текст отчета -->
+        <TextView
+            android:id="@+id/txtReport"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="#FFFFFF"
+            android:padding="20dp"
+            android:textSize="14sp"
+            android:lineSpacingExtra="4dp"
+            android:text="Выберите период для отчета"
+            android:textColor="#333333"
+            android:gravity="center" />
+
+    </LinearLayout>
+
+</LinearLayout>

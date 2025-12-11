@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="20dp"
+    android:background="#FFFFFF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Заголовок -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="👤 Профиль пользователя"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#2E7D32"
+            android:gravity="center"
+            android:layout_marginBottom="20dp" />
+
+
+        <!-- Информация о пользователе -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Личная информация:"
+            android:textStyle="bold"
+            android:textColor="#2E7D32"
+            android:layout_marginBottom="10dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#F8F9FA"
+            android:padding="15dp"
+            android:layout_marginBottom="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="ФИО:"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtProfileFullName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="Иванов Иван Иванович"
+                    android:textStyle="bold"
+                    android:textColor="#2E7D32" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Логин:"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtProfileUsername"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="user123"
+                    android:textColor="#2E7D32" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Роль:"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtProfileRole"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="Пассажир"
+                    android:textColor="#2E7D32" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Документ:"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtProfileDocument"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="4500 123456"
+                    android:textColor="#2E7D32" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Бронирования на сегодня -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🎫 Бронирования на сегодня:"
+            android:textStyle="bold"
+            android:textColor="#2E7D32"
+            android:layout_marginBottom="10dp" />
+
+        <ListView
+            android:id="@+id/listViewTodayBookings"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:background="#F8F9FA"
+            android:padding="8dp"
+            android:layout_marginBottom="20dp" />
+
+        <!-- Все бронирования -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="📋 Все мои бронирования:"
+            android:textStyle="bold"
+            android:textColor="#2E7D32"
+            android:layout_marginBottom="10dp" />
+
+        <ListView
+            android:id="@+id/listViewAllBookings"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="#F8F9FA"
+            android:padding="8dp"
+            android:layout_marginBottom="20dp" />
+
+        <!-- Кнопка закрытия -->
+        <Button
+            android:id="@+id/btnCloseProfile"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:text="Закрыть"
+            android:background="#F44336"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp" />
+
+    </LinearLayout>
+
+</ScrollView>

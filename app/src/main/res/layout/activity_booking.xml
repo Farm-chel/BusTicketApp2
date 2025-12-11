@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#F5F5F5">
+
+    <!-- Заголовок -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Бронирование билета"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="20dp"
+        android:textColor="#1976D2" />
+
+    <!-- Выбор рейса -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Выберите рейс:"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"
+        android:textColor="#424242" />
+
+    <Spinner
+        android:id="@+id/spinnerTrips"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/edittext_background" />
+
+    <!-- Информация о выбранном рейсе -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Выбранный рейс:"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="4dp"
+        android:textColor="#757575" />
+
+    <!-- УВЕЛИЧИМ ВЫСОТУ И ПАДДИНГИ ДЛЯ ЛУЧШЕГО ОТОБРАЖЕНИЯ -->
+    <TextView
+        android:id="@+id/tvSelectedTrip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="80dp"
+    android:text="Не выбран"
+    android:textSize="18sp"
+    android:textStyle="bold"
+    android:gravity="center_vertical"
+    android:layout_marginBottom="16dp"
+    android:textColor="#1976D2"
+    android:padding="16dp"
+    android:background="@drawable/edittext_background"
+    android:maxLines="3"
+    android:ellipsize="end" />
+
+    <!-- Цена -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="30dp"
+        android:paddingHorizontal="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Цена:"
+            android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="#424242" />
+
+        <TextView
+            android:id="@+id/tvPrice"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="0 руб."
+            android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="#4CAF50"
+        android:gravity="end"
+        android:padding="12dp" />
+
+    </LinearLayout>
+
+    <!-- Кнопка бронирования -->
+    <Button
+        android:id="@+id/btnBook"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="🎫 Забронировать"
+        android:textSize="18sp"
+        android:textColor="#FFFFFF"
+        android:background="#4CAF50"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Кнопка назад -->
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="← Назад"
+        android:textSize="18sp"
+        android:textColor="#FFFFFF"
+        android:background="#757575" />
+
+</LinearLayout>
