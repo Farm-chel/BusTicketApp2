@@ -20,7 +20,7 @@
 ![Поиск рейсов](https://via.placeholder.com/800x400/3a86ff/ffffff?text=Интерфейс+поиска+рейсов)
 
 ### Процесс бронирования
-![Бронирование](https://via.placeholder.com/800x400/ff6b6b/ffffff?text=Процесс+бронирования+билетов)
+<img width="297" height="628" alt="image" src="https://github.com/user-attachments/assets/902ebc27-88ea-4b2f-ad2d-0566c3404260" />
 
 ### Личный кабинет
 ![Личный кабинет](https://via.placeholder.com/800x400/06d6a0/ffffff?text=Личный+кабинет+пользователя)
