@@ -19,14 +19,6 @@
 
 ### Процесс бронирования
 <img width="297" height="628" alt="image" src="https://github.com/user-attachments/assets/902ebc27-88ea-4b2f-ad2d-0566c3404260" />
-<p align="center">
-  <img src="https://img.shields.io/badge/🚌_BusTicketApp2-Система_бронирования_билетов-blue?style=for-the-badge&logo=bus&logoColor=white" alt="BusTicketApp2">
-</p>
-
-<div align="center">
-
-
-</div>
 
 ## ✨ Особенности
 
