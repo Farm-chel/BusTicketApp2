@@ -16,9 +16,6 @@
 
 ## 📸 Демонстрация
 
-### Интерфейс рейсов
-<img width="433" height="928" alt="image" src="https://github.com/user-attachments/assets/90ac96d2-ac7c-460d-a9b0-1362ad8f7dc8" />
-
 
 ### Процесс бронирования
 <img width="297" height="628" alt="image" src="https://github.com/user-attachments/assets/902ebc27-88ea-4b2f-ad2d-0566c3404260" />
