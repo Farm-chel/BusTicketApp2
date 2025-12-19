@@ -3,38 +3,61 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F1F8E9"
-    android:padding="16dp">
+    android:background="#F5F5F5"
+    android:padding="8dp">
 
     <!-- Заголовок -->
-    <LinearLayout
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="#4CAF50"
+        android:text="🚌 Все рейсы"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:gravity="center"
         android:padding="16dp"
-        android:gravity="center_vertical">
+        android:background="#2196F3"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Прогресс загрузки -->
+    <LinearLayout
+        android:id="@+id/progressLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="32dp">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:indeterminate="true" />
 
         <TextView
-            android:layout_width="0dp"
+            android:id="@+id/txtLoading"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="🚌 Список рейсов"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/btnBack"
-            android:layout_width="60dp"
-            android:layout_height="50dp"
-            android:text="←"
-            android:background="#FF9800"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:text="Загрузка рейсов..."
+            android:textSize="16sp"
+            android:paddingTop="8dp"
+            android:textColor="#666666" />
 
     </LinearLayout>
+
+    <!-- Сообщение об отсутствии рейсов -->
+    <TextView
+        android:id="@+id/txtNoTrips"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text=""
+        android:textSize="16sp"
+        android:gravity="center"
+        android:padding="32dp"
+        android:textColor="#FF5722"
+        android:visibility="gone"
+        android:background="#FFEBEE" />
 
     <!-- Список рейсов -->
     <ListView
@@ -42,12 +65,21 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_marginTop="16dp"
-        android:background="#FFFFFF"
         android:divider="#E0E0E0"
         android:dividerHeight="1dp"
         android:padding="8dp"
-        android:cacheColorHint="#00000000"
-        android:textColor="#000000" />
+        android:visibility="gone" />
+
+    <!-- Кнопка назад -->
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="⬅ Назад"
+        android:textSize="16sp"
+        android:textColor="#FFFFFF"
+        android:background="#757575"
+        android:padding="12dp"
+        android:layout_marginTop="8dp" />
 
 </LinearLayout>

@@ -1,120 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F1F8E9">
+    android:background="#F5F5F5"
+    android:padding="16dp">
 
-    <!-- Шапка -->
-    <LinearLayout
+    <!-- Заголовок маршрута -->
+    <TextView
+        android:id="@+id/txtTripTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="#4CAF50"
+        android:text="Маршрут"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="#1976D2"
+        android:gravity="center"
+        android:layout_marginBottom="20dp"
         android:padding="12dp"
-        android:gravity="center_vertical">
+        android:background="@drawable/edittext_background" />
 
-        <TextView
-            android:id="@+id/txtTripTitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Детали рейса"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:gravity="center" />
-
-        <Button
-            android:id="@+id/btnBackToRoutes"
-            android:layout_width="60dp"
-            android:layout_height="50dp"
-            android:text="←"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp"
-            android:background="#FF5722"
-            android:textStyle="bold" />
-
-    </LinearLayout>
-
-    <!-- Детали рейса -->
-    <ScrollView
+    <!-- Карточка с информацией -->
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="#F1F8E9">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="24dp"
-            android:gravity="center">
+            android:padding="20dp"
+            android:background="#FFFFFF">
 
             <!-- Маршрут -->
             <TextView
                 android:id="@+id/txtRoute"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Маршрут"
-                android:textSize="20sp"
+                android:text="📍 Маршрут: "
+                android:textSize="18sp"
+                android:textColor="#424242"
                 android:textStyle="bold"
-                android:textColor="#2E7D32"
-                android:gravity="center"
-                android:layout_marginBottom="20dp"
-                android:padding="16dp"
-                android:background="#E8F5E9" />
+                android:layout_marginBottom="12dp" />
 
             <!-- Время -->
             <TextView
                 android:id="@+id/txtTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Время"
+                android:text="⏰ Время: "
                 android:textSize="16sp"
-                android:textColor="#2E7D32"
-                android:gravity="center"
-                android:layout_marginBottom="20dp"
-                android:padding="12dp"
-                android:background="#FFFFFF" />
+                android:textColor="#757575"
+                android:layout_marginBottom="12dp" />
 
-            <!-- Стоимость -->
+            <!-- Цена -->
             <TextView
                 android:id="@+id/txtPrice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Стоимость"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="#2E7D32"
-                android:gravity="center"
-                android:layout_marginBottom="30dp"
-                android:padding="16dp"
-                android:background="#E8F5E9" />
-
-            <!-- Кнопка показа карты -->
-            <Button
-                android:id="@+id/btnShowMap"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:text="🗺️ Показать на карте"
+                android:text="💰 Стоимость: "
                 android:textSize="16sp"
-                android:background="#4CAF50"
-                android:textColor="#FFFFFF"
-                android:textStyle="bold"
-                android:layout_marginBottom="20dp" />
+                android:textColor="#4CAF50"
+                android:layout_marginBottom="12dp" />
 
-            <!-- Информация -->
+            <!-- Длительность -->
             <TextView
+                android:id="@+id/txtDuration"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="💡 Нажмите на карту для просмотра маршрута с остановками"
-                android:textSize="12sp"
-                android:textColor="#757575"
-                android:gravity="center"
-                android:padding="16dp" />
+                android:text="⏱️ Продолжительность: "
+                android:textSize="16sp"
+                android:textColor="#2196F3"
+                android:layout_marginBottom="12dp" />
+
+            <!-- Количество остановок -->
+            <TextView
+                android:id="@+id/txtStopsCount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="🚏 Количество остановок: "
+                android:textSize="16sp"
+                android:textColor="#FF9800"
+                android:layout_marginBottom="8dp" />
 
         </LinearLayout>
-    </ScrollView>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Кнопка показа на карте -->
+    <Button
+        android:id="@+id/btnShowMap"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="🗺️ Показать на карте"
+        android:textSize="16sp"
+        android:textColor="#FFFFFF"
+        android:background="#2196F3"
+        android:layout_marginBottom="12dp"
+        android:drawablePadding="8dp" />
+
+    <!-- Кнопка назад -->
+    <Button
+        android:id="@+id/btnBackToRoutes"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="← Назад к маршрутам"
+        android:textSize="16sp"
+        android:textColor="#FFFFFF"
+        android:background="#757575" />
 
 </LinearLayout>

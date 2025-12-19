@@ -390,14 +390,39 @@ class SimpleSeatSelectionActivity : AppCompatActivity() {
                     "Места: ${seats.sorted().joinToString(", ")}\n" +
                     "Общая стоимость: ${totalPrice.toInt()} руб.\n" +
                     "Номер основного билета: $bookingId")
-            .setPositiveButton("OK") { dialog, which ->
-                // Возвращаемся на главный экран
-                val intent = Intent(this, MainActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+            .setPositiveButton("Показать чек") { dialog, which ->
+                // Открываем чек
+                val intent = Intent(this, ReceiptActivity::class.java)
+                intent.putExtra("BOOKING_ID", bookingId)
                 startActivity(intent)
+            }
+            .setNeutralButton("В меню") { dialog, which ->
+                // Просто закрываем текущую активность и возвращаемся назад
                 finish()
             }
-            .create()
+            .setCancelable(false)
             .show()
+    }
+
+    private fun returnToMainMenu() {
+        // Получаем текущего пользователя
+        val currentUser = dbHelper.getUserById(userId)
+
+        if (currentUser != null) {
+            // Возвращаемся в MainActivity с данными пользователя
+            val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("USER_ID", currentUser.id)
+            intent.putExtra("USERNAME", currentUser.username)
+            intent.putExtra("FULL_NAME", currentUser.fullName)
+            intent.putExtra("ROLE", currentUser.role)
+            intent.putExtra("AUTO_LOGIN", true)  // Флаг автологина
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+        } else {
+            // Если пользователь не найден, идем на экран входа
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+        finish()
     }
 }

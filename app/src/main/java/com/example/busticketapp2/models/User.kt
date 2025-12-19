@@ -8,5 +8,6 @@ data class User(
     val fullName: String,
     val email: String,
     val createdDate: String = "2024-01-01",
-    val phone: String = ""
+    val phone: String = "",
+    val isActive: Boolean = true
 )

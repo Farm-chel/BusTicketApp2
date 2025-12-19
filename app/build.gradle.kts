@@ -12,11 +12,22 @@ android {
         minSdk = 24
         targetSdk = 34
         versionCode = 1
-        versionName = "1.0"
+        versionName = "1.0 Demo"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-
+    packaging {
+        resources {
+            excludes += setOf(
+                "META-INF/NOTICE.md",
+                "META-INF/LICENSE.md",
+                "META-INF/DEPENDENCIES",
+                "META-INF/NOTICE",
+                "META-INF/LICENSE",
+                "META-INF/*.kotlin_module"
+            )
+        }
+    }
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -52,5 +63,8 @@ dependencies {
     // ZXing для генерации QR-кодов
     implementation("com.google.zxing:core:3.5.2")
     implementation("com.journeyapps:zxing-android-embedded:4.3.0")
+    implementation("androidx.cardview:cardview:1.0.0")
+// Для работы с интернетом
+    implementation("androidx.core:core-ktx:1.10.1")
 
 }

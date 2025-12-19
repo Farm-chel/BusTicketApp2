@@ -14,6 +14,10 @@
     <!-- Разрешение для интернета -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:allowBackup="true"
@@ -52,6 +56,7 @@
         <activity android:name=".MultiSeatSelectionActivity" android:screenOrientation="portrait" />
         <activity android:name=".RouteMapActivity" android:screenOrientation="portrait" />
         <activity android:name=".SeatSelectionActivity" android:screenOrientation="portrait" />
+        <activity android:name=".EmailVerificationActivity" android:exported="false" android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <!-- Для Google Maps -->
         <meta-data
@@ -68,12 +73,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
-        <!-- Сервис для очистки билетов -->
-        <service
-            android:name=".BookingCleanupService"
-            android:exported="false"
-            android:enabled="true" />
 
         <!-- Активность для сканера QR (если используете) -->
         <activity android:name=".QRScannerActivity" android:screenOrientation="portrait" />

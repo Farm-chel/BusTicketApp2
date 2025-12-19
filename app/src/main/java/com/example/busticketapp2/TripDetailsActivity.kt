@@ -27,23 +27,40 @@ class TripDetailsActivity : AppCompatActivity() {
         val tripTo = intent.getStringExtra("TRIP_TO") ?: ""
         val tripTime = intent.getStringExtra("TRIP_TIME") ?: ""
         val tripPrice = intent.getDoubleExtra("TRIP_PRICE", 0.0)
+        val tripStopsCount = intent.getIntExtra("TRIP_STOPS_COUNT", 0)
+        val tripDuration = intent.getStringExtra("TRIP_DURATION") ?: ""
 
-        initViews(tripName, tripFrom, tripTo, tripTime, tripPrice, tripId)
+        initViews(tripName, tripFrom, tripTo, tripTime, tripPrice, tripId, tripStopsCount, tripDuration)
     }
 
-    private fun initViews(tripName: String, from: String, to: String, time: String, price: Double, tripId: Int) {
+    private fun initViews(tripName: String, from: String, to: String, time: String,
+                          price: Double, tripId: Int, stopsCount: Int, duration: String) {
         try {
             val txtTripTitle: TextView = findViewById(R.id.txtTripTitle)
             val txtRoute: TextView = findViewById(R.id.txtRoute)
             val txtTime: TextView = findViewById(R.id.txtTime)
             val txtPrice: TextView = findViewById(R.id.txtPrice)
+            val txtDuration: TextView = findViewById(R.id.txtDuration)
+            val txtStopsCount: TextView = findViewById(R.id.txtStopsCount)
             val btnShowMap: Button = findViewById(R.id.btnShowMap)
             val btnBackToRoutes: Button = findViewById(R.id.btnBackToRoutes)
 
-            txtTripTitle.text = tripName
-            txtRoute.text = "$from → $to"
-            txtTime.text = "⏰ $time"
-            txtPrice.text = "💰 ${price.toInt()} руб."
+            // Определяем эмодзи для маршрута
+            val emoji = when {
+                from.contains("Слободской") || to.contains("Слободской") -> "🏙️"
+                from.contains("Котельнич") || to.contains("Котельнич") -> "🚂"
+                from.contains("Вятские") || to.contains("Вятские") -> "🌲"
+                from.contains("Советск") || to.contains("Советск") -> "🏛️"
+                else -> "🚌"
+            }
+
+            // Устанавливаем значения
+            txtTripTitle.text = "$emoji $from → $to"
+            txtRoute.text = "📍 Маршрут: $from → $to"
+            txtTime.text = "⏰ Время: $time"
+            txtPrice.text = "💰 Стоимость: ${price.toInt()} руб."
+            txtDuration.text = "⏱️ Продолжительность: $duration"
+            txtStopsCount.text = "🚏 Количество остановок: $stopsCount"
 
             // Кнопка показа карты
             btnShowMap.setOnClickListener {
@@ -53,7 +70,7 @@ class TripDetailsActivity : AppCompatActivity() {
                     intent.putExtra("TRIP_NAME", "$from → $to")
                     startActivity(intent)
                 } catch (e: Exception) {
-                    Toast.makeText(this, "Ошибка открытия карты", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "❌ Ошибка открытия карты", Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -61,8 +78,9 @@ class TripDetailsActivity : AppCompatActivity() {
             btnBackToRoutes.setOnClickListener {
                 finish()
             }
+
         } catch (e: Exception) {
-            Toast.makeText(this, "Ошибка загрузки деталей маршрута", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "❌ Ошибка загрузки деталей маршрута", Toast.LENGTH_SHORT).show()
             finish()
         }
     }

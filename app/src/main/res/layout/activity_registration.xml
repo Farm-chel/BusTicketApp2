@@ -208,7 +208,16 @@
                 android:gravity="center"
                 android:padding="16dp"
                 android:layout_marginTop="30dp" />
-
+            <Button
+                android:id="@+id/btnTest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="🚀 ТЕСТ регистрации"
+                android:backgroundTint="#FF5722"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:visibility="gone" /> <!-- По умолчанию скрыта -->
         </LinearLayout>
     </ScrollView>
 

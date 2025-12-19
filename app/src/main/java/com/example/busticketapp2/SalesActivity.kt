@@ -55,12 +55,21 @@ class SalesActivity : AppCompatActivity() {
 
         val tripsAdapter = ArrayAdapter(
             this,
-            R.layout.spinner_item, // Используем кастомный layout
+            R.layout.spinner_item,
             tripsList.map { trip ->
-                "${trip.fromCity} → ${trip.toCity} - ${trip.departureTime} - ${trip.price.toInt()} руб."
+                // Определяем эмодзи для маршрута
+                val emoji = when {
+                    trip.fromCity.contains("Слободской") || trip.toCity.contains("Слободской") -> "🏙️"
+                    trip.fromCity.contains("Котельнич") || trip.toCity.contains("Котельнич") -> "🚂"
+                    trip.fromCity.contains("Вятские") || trip.toCity.contains("Вятские") -> "🌲"
+                    trip.fromCity.contains("Советск") || trip.toCity.contains("Советск") -> "🏛️"
+                    else -> "🚌"
+                }
+
+                "$emoji ${trip.fromCity} → ${trip.toCity} - ${trip.departureTime} - ${trip.price.toInt()} руб."
             }
         )
-        tripsAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item) // Кастомный layout для выпадающего списка
+        tripsAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
         spinnerTrips.adapter = tripsAdapter
 
         spinnerTrips.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -84,7 +93,7 @@ class SalesActivity : AppCompatActivity() {
             val usersAdapter = ArrayAdapter(
                 this,
                 R.layout.spinner_item,
-                listOf("⚠️ Нет зарегистрированных пассажиров")
+                listOf("Нет зарегистрированных пассажиров")
             )
             usersAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
             spinnerUsers.adapter = usersAdapter

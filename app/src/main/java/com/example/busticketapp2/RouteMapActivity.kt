@@ -28,7 +28,16 @@ class RouteMapActivity : AppCompatActivity() {
         val tripId = intent.getIntExtra("TRIP_ID", -1)
         val tripName = intent.getStringExtra("TRIP_NAME") ?: "Маршрут"
 
-        txtRouteTitle.text = "🗺️ Карта маршрута: $tripName"
+        // Определяем эмодзи для маршрута
+        val emoji = when {
+            tripName.contains("Слободской") -> "🏙️"
+            tripName.contains("Котельнич") -> "🚂"
+            tripName.contains("Вятские") -> "🌲"
+            tripName.contains("Советск") -> "🏛️"
+            else -> "🗺️"
+        }
+
+        txtRouteTitle.text = "$emoji Маршрут: $tripName"
 
         // Получаем остановки из базы данных
         val stops = if (tripId != -1) {
