@@ -24,6 +24,7 @@ class SimpleSeatSelectionActivity : AppCompatActivity() {
     private var userId: Int = -1
     private var isMultiMode: Boolean = false
     private var passengerCount: Int = 1
+    private var tripDate: String = Trip.getCurrentDate() // Добавляем переменную для даты
     private val selectedSeats = mutableListOf<Int>()
     private val totalSeats = 45
 
@@ -38,6 +39,7 @@ class SimpleSeatSelectionActivity : AppCompatActivity() {
         userId = intent.getIntExtra("USER_ID", -1)
         isMultiMode = intent.getBooleanExtra("MULTI_MODE", false)
         passengerCount = intent.getIntExtra("PASSENGER_COUNT", 1)
+        tripDate = intent.getStringExtra("TRIP_DATE") ?: Trip.getCurrentDate() // Получаем дату
 
         selectedTrip = dbHelper.getTripById(tripId) ?: run {
             Toast.makeText(this, "Ошибка: рейс не найден", Toast.LENGTH_SHORT).show()
@@ -63,7 +65,10 @@ class SimpleSeatSelectionActivity : AppCompatActivity() {
         txtSelectedSeat = findViewById(R.id.txtSelectedSeat)
         txtTripInfo = findViewById(R.id.txtTripInfo)
 
-        txtTripInfo.text = "${selectedTrip.fromCity} → ${selectedTrip.toCity}\n${selectedTrip.departureTime} - ${selectedTrip.arrivalTime}\n${selectedTrip.price.toInt()} руб."
+        txtTripInfo.text = "${selectedTrip.fromCity} → ${selectedTrip.toCity}\n" +
+                "${selectedTrip.departureTime} - ${selectedTrip.arrivalTime}\n" +
+                "${selectedTrip.price.toInt()} руб.\n" +
+                "📅 Дата: ${Trip.formatDate(tripDate)}" // Показываем дату
 
         if (isMultiMode) {
             txtSelectedSeat.text = "Выберите $passengerCount мест(а)"
@@ -76,7 +81,8 @@ class SimpleSeatSelectionActivity : AppCompatActivity() {
         gridLayoutSeats.removeAllViews()
         gridLayoutSeats.columnCount = 4
 
-        val bookedSeats = dbHelper.getBookedSeats(selectedTrip.id)
+        // Используем дату для получения занятых мест
+        val bookedSeats = dbHelper.getBookedSeats(selectedTrip.id, tripDate)
 
         for (seatNumber in 1..totalSeats) {
             val seatButton = Button(this).apply {
@@ -149,7 +155,8 @@ class SimpleSeatSelectionActivity : AppCompatActivity() {
     }
 
     private fun updateSeatSelection() {
-        val bookedSeats = dbHelper.getBookedSeats(selectedTrip.id)
+        // Используем дату для получения занятых мест
+        val bookedSeats = dbHelper.getBookedSeats(selectedTrip.id, tripDate)
 
         for (i in 0 until gridLayoutSeats.childCount) {
             val seatButton = gridLayoutSeats.getChildAt(i) as Button
@@ -276,13 +283,14 @@ class SimpleSeatSelectionActivity : AppCompatActivity() {
                     return@setPositiveButton
                 }
 
-                // СОЗДАЕМ БРОНИРОВАНИЕ
+                // СОЗДАЕМ БРОНИРОВАНИЕ С ДАТОЙ
                 val bookingId = dbHelper.addBookingWithSeat(
                     userId = userId,
                     tripId = selectedTrip.id,
                     passengerName = passengerName,
                     passengerEmail = passengerEmail,
-                    seatNumber = selectedSeat
+                    seatNumber = selectedSeat,
+                    tripDate = tripDate // Передаем дату
                 )
 
                 if (bookingId != -1L) {
@@ -364,7 +372,8 @@ class SimpleSeatSelectionActivity : AppCompatActivity() {
                 tripId = selectedTrip.id,
                 passengerName = passengerName,
                 passengerEmail = passengerEmail,
-                seatNumber = selectedSeats[i]
+                seatNumber = selectedSeats[i],
+                tripDate = tripDate // Передаем дату
             )
 
             if (bookingId == -1L) {
@@ -383,10 +392,12 @@ class SimpleSeatSelectionActivity : AppCompatActivity() {
 
     private fun showSuccessDialog(bookingId: Int, seats: List<Int>) {
         val totalPrice = selectedTrip.price * seats.size
+        val formattedDate = Trip.formatDate(tripDate)
 
         AlertDialog.Builder(this)
             .setTitle("✅ Бронирование успешно!")
             .setMessage("Забронировано ${seats.size} билет(а)\n" +
+                    "Дата поездки: $formattedDate\n" +
                     "Места: ${seats.sorted().joinToString(", ")}\n" +
                     "Общая стоимость: ${totalPrice.toInt()} руб.\n" +
                     "Номер основного билета: $bookingId")
@@ -402,27 +413,5 @@ class SimpleSeatSelectionActivity : AppCompatActivity() {
             }
             .setCancelable(false)
             .show()
-    }
-
-    private fun returnToMainMenu() {
-        // Получаем текущего пользователя
-        val currentUser = dbHelper.getUserById(userId)
-
-        if (currentUser != null) {
-            // Возвращаемся в MainActivity с данными пользователя
-            val intent = Intent(this, MainActivity::class.java)
-            intent.putExtra("USER_ID", currentUser.id)
-            intent.putExtra("USERNAME", currentUser.username)
-            intent.putExtra("FULL_NAME", currentUser.fullName)
-            intent.putExtra("ROLE", currentUser.role)
-            intent.putExtra("AUTO_LOGIN", true)  // Флаг автологина
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(intent)
-        } else {
-            // Если пользователь не найден, идем на экран входа
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-        }
-        finish()
     }
 }

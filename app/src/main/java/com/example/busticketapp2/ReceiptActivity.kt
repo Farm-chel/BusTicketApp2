@@ -81,33 +81,27 @@ class ReceiptActivity : AppCompatActivity() {
 
     private fun showTicketInfo(textView: TextView, booking: Booking,
                                trip: Trip, user: com.example.busticketapp2.models.User?) {
-        val formattedDate = try {
-            val inputFormat = java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault())
-            val outputFormat = java.text.SimpleDateFormat("dd.MM.yyyy", java.util.Locale.getDefault())
-            val date = inputFormat.parse(booking.tripDate)
-            outputFormat.format(date ?: java.util.Date())
-        } catch (e: Exception) {
-            booking.tripDate
-        }
+        val formattedTripDate = Trip.formatDate(booking.tripDate)
+        val formattedBookingDate = Booking.formatDate(booking.bookingDate)
 
         val ticketInfo = """
-            🎫 АВТОБУСНЫЙ БИЛЕТ
-            
-            📅 Дата поездки: $formattedDate
-            📍 Маршрут: ${trip.fromCity} → ${trip.toCity}
-            ⏰ Время: ${trip.departureTime}
-            👤 Пассажир: ${booking.passengerName}
-            📧 Email: ${booking.passengerEmail}
-            💺 Место: ${booking.seatNumber}
-            💰 Стоимость: ${trip.price.toInt()} руб.
-            📅 Дата брони: ${booking.bookingDate}
-            👑 Владелец: ${user?.fullName ?: "Не указан"}
-            📧 Email владельца: ${user?.email ?: "Не указан"}
-            🔢 Номер билета: ${booking.id}
-            ✅ Статус: ${booking.status}
-            
-            Для получения PDF версии нажмите "Создать PDF"
-        """.trimIndent()
+        🎫 АВТОБУСНЫЙ БИЛЕТ
+        
+        📅 Дата поездки: $formattedTripDate
+        📍 Маршрут: ${trip.fromCity} → ${trip.toCity}
+        ⏰ Время: ${trip.departureTime}
+        👤 Пассажир: ${booking.passengerName}
+        📧 Email: ${booking.passengerEmail}
+        💺 Место: ${booking.seatNumber}
+        💰 Стоимость: ${trip.price.toInt()} руб.
+        📅 Дата брони: $formattedBookingDate
+        👑 Владелец: ${user?.fullName ?: "Не указан"}
+        📧 Email владельца: ${user?.email ?: "Не указан"}
+        🔢 Номер билета: ${booking.id}
+        ✅ Статус: ${booking.status}
+        
+        Для получения PDF версии нажмите "Создать PDF"
+    """.trimIndent()
 
         textView.text = ticketInfo
     }

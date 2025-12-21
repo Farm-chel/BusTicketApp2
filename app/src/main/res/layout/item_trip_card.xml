@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="8dp"
+    android:layout_marginVertical="4dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="2dp"
+    app:cardBackgroundColor="#FFFFFF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="?attr/selectableItemBackground">
+
+        <!-- Эмодзи и маршрут -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="8dp">
+
+            <TextView
+                android:id="@+id/tripEmoji"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🚌"
+                android:textSize="24sp"
+                android:layout_marginRight="12dp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tripRoute"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Киров → Слободской"
+                    android:textSize="18sp"
+                    android:textColor="#212121"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tripTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="08:00 - 09:00"
+                    android:textSize="14sp"
+                    android:textColor="#757575"
+                    android:layout_marginTop="4dp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tripPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="240 руб."
+                android:textSize="18sp"
+                android:textColor="#4CAF50"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <!-- Дополнительная информация -->
+        <TextView
+            android:id="@+id/tripInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="⏱️ 1 час | 🚏 42 остановки"
+            android:textSize="12sp"
+            android:textColor="#666666"
+            android:layout_marginTop="4dp" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

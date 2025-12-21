@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#E8F5E8"
+    android:padding="16dp">
+
+    <!-- Заголовок -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="📅 Выбор даты поездки"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="20dp"
+        android:textColor="#2E7D32"
+        android:padding="12dp"
+        android:background="#C8E6C9" />
+
+    <!-- Информация о рейсе -->
+    <TextView
+        android:id="@+id/txtTripInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:padding="16dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="#2E7D32"
+        android:gravity="center"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Информация о доступных датах -->
+    <TextView
+        android:id="@+id/txtAvailableDates"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#E3F2FD"
+        android:padding="12dp"
+        android:textSize="14sp"
+        android:textColor="#1976D2"
+        android:layout_marginBottom="20dp" />
+
+    <!-- Выбранная дата -->
+    <TextView
+        android:id="@+id/txtSelectedDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="📅 Выберите дату поездки"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:padding="16dp"
+        android:background="#FFFFFF"
+        android:layout_marginBottom="20dp"
+        android:textColor="#FF9800" />
+
+    <!-- Кнопка выбора даты -->
+    <Button
+        android:id="@+id/btnSelectDate"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="📅 Выбрать дату"
+        android:textSize="18sp"
+        android:background="#4CAF50"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Кнопка продолжения -->
+    <Button
+        android:id="@+id/btnContinue"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="Далее → Выбор места"
+        android:textSize="18sp"
+        android:background="#2196F3"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp"
+        android:enabled="false" />
+
+    <!-- Кнопка назад -->
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="← Назад"
+        android:textSize="18sp"
+        android:background="#757575"
+        android:textColor="#FFFFFF" />
+
+</LinearLayout>

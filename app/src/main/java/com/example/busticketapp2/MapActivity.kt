@@ -27,16 +27,14 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var stops: List<Stop>
 
     companion object {
-        // Цвета для разных маршрутов
+        // Цвета для 6 маршрутов (без Киров-Вятские Поляны)
         private val ROUTE_COLORS = mapOf(
             1 to Color.parseColor("#2196F3"),  // Слободской → Киров - синий
             2 to Color.parseColor("#4CAF50"),  // Киров → Слободской - зеленый
             3 to Color.parseColor("#FF9800"),  // Киров → Котельнич - оранжевый
             4 to Color.parseColor("#9C27B0"),  // Котельнич → Киров - фиолетовый
-            5 to Color.parseColor("#F44336"),  // Киров → Вятские Поляны - красный
-            6 to Color.parseColor("#00BCD4"),  // Вятские Поляны → Киров - голубой
-            7 to Color.parseColor("#795548"),  // Киров → Советск - коричневый
-            8 to Color.parseColor("#607D8B")   // Советск → Киров - серый
+            5 to Color.parseColor("#795548"),  // Киров → Советск - коричневый
+            6 to Color.parseColor("#607D8B")   // Советск → Киров - серый
         )
     }
 
@@ -74,8 +72,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         val emoji = when (tripId) {
             1, 2 -> "🏙️"  // Слободской-Киров
             3, 4 -> "🚂"  // Киров-Котельнич
-            5, 6 -> "🌲"  // Киров-Вятские Поляны
-            7, 8 -> "🏛️"  // Киров-Советск
+            5, 6 -> "🏛️"  // Киров-Советск
             else -> "🗺️"
         }
 
@@ -122,7 +119,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                 return
             }
 
-            // Получаем координаты для всех остановок
+            // Получаем координаты для всех остановок через DatabaseHelper
             val stopCoordinates = getCoordinatesForStops()
 
             if (stopCoordinates.isEmpty()) {
@@ -152,18 +149,25 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             val originalStopName = stop.name
             Log.d("MapActivity", "Остановка #${index + 1}: '$originalStopName'")
 
-            // Используем DatabaseHelper для получения координат
-            val coords = dbHelper.getStopCoordinates(originalStopName, tripId)
+            try {
+                // Используем метод DatabaseHelper для получения координат
+                val coords = dbHelper.getStopCoordinates(originalStopName, tripId)
 
-            if (coords != null && coords != Pair(58.600000, 49.600000)) {
-                val latLng = LatLng(coords.first, coords.second)
-                coordinates.add(Pair(stop, latLng))
-                Log.d("MapActivity", "✓ Найдены координаты: ${coords.first}, ${coords.second}")
-            } else {
-                // Если координаты не найдены, используем метод DatabaseHelper
-                val approxCoords = getApproximateCoordinates(originalStopName, index)
+                if (coords != null) {
+                    val latLng = LatLng(coords.first, coords.second)
+                    coordinates.add(Pair(stop, latLng))
+                    Log.d("MapActivity", "✓ Найдены координаты: ${coords.first}, ${coords.second}")
+                } else {
+                    // Если координаты не найдены, используем логику поиска по названию
+                    val approxCoords = getCoordinatesFromCache(originalStopName)
+                    coordinates.add(Pair(stop, approxCoords))
+                    Log.d("MapActivity", "⚠ Использованы координаты из кэша: ${approxCoords.latitude}, ${approxCoords.longitude}")
+                }
+            } catch (e: Exception) {
+                Log.e("MapActivity", "Ошибка получения координат для '$originalStopName': ${e.message}")
+                // Используем приблизительные координаты
+                val approxCoords = getApproximateCoordinates(index)
                 coordinates.add(Pair(stop, approxCoords))
-                Log.d("MapActivity", "⚠ Приблизительные координаты: ${approxCoords.latitude}, ${approxCoords.longitude}")
             }
         }
 
@@ -171,46 +175,73 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         return coordinates
     }
 
-    private fun getApproximateCoordinates(stopName: String, index: Int): LatLng {
-        // Используем базовые координаты городов
-        val cityCoords = when {
-            stopName.contains("Киров", ignoreCase = true) -> LatLng(58.583651, 49.650495)
-            stopName.contains("Слободской", ignoreCase = true) -> LatLng(58.721262, 50.181554)
-            stopName.contains("Котельнич", ignoreCase = true) -> LatLng(58.312207, 48.341900)
-            stopName.contains("Вятские Поляны", ignoreCase = true) -> LatLng(56.224749, 51.079241)
-            stopName.contains("Советск", ignoreCase = true) -> LatLng(57.592981, 48.969190)
-            stopName.contains("Орлов", ignoreCase = true) -> LatLng(58.548402, 48.898684)
-            stopName.contains("Верхошижемье", ignoreCase = true) -> LatLng(58.007893, 49.106358)
-            stopName.contains("Уржум", ignoreCase = true) -> LatLng(57.120178, 49.994436)
-            stopName.contains("Нолинск", ignoreCase = true) -> LatLng(57.562190, 49.950472)
-            stopName.contains("Малмыж", ignoreCase = true) -> LatLng(56.517984, 50.670337)
-            stopName.contains("Арбаж", ignoreCase = true) -> LatLng(57.680673, 48.307524)
-            else -> null
+    private fun getCoordinatesFromCache(stopName: String): LatLng {
+        // Упрощаем название для поиска
+        val simplifiedName = stopName
+            .replace("\\(.*?\\)".toRegex(), "")
+            .replace("\\s+".toRegex(), " ")
+            .trim()
+
+        Log.d("MapActivity", "Поиск координат для: '$stopName' -> упрощено: '$simplifiedName'")
+
+        // Формируем ключ для поиска в кэше
+        val prefix = when (tripId) {
+            1 -> "M1_"
+            2 -> "M2_"
+            3 -> "M3_"
+            4 -> "M4_"
+            5 -> "M5_"
+            6 -> "M6_"
+            else -> ""
         }
 
-        if (cityCoords != null) {
-            return cityCoords
+        val cacheKey = "$prefix$simplifiedName"
+
+        // Ищем координаты в кэше через DatabaseHelper
+        try {
+            val coords = dbHelper.getStopCoordinates(simplifiedName, tripId)
+
+            if (coords != null && coords != Pair(58.600000, 49.600000)) {
+                Log.d("MapActivity", "✓ Найдены координаты для '$cacheKey': ${coords.first}, ${coords.second}")
+                return LatLng(coords.first, coords.second)
+            } else {
+                // Пробуем альтернативные варианты поиска
+                Log.d("MapActivity", "⚠ Координаты не найдены для '$cacheKey', пробуем альтернативы...")
+
+                // Альтернативный поиск по части названия
+                for ((key, value) in dbHelper.getCoordinatesCacheMap()) {
+                    if (key.contains(simplifiedName, ignoreCase = true) ||
+                        simplifiedName.contains(key.replace("M[0-9]_", ""), ignoreCase = true)) {
+                        Log.d("MapActivity", "✓ Альтернативно найдено: $key -> ${value.first}, ${value.second}")
+                        return LatLng(value.first, value.second)
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            Log.e("MapActivity", "Ошибка при поиске координат: ${e.message}")
         }
 
-        // Если это не город, распределяем точки равномерно по маршруту
+        // Если ничего не нашли, используем приблизительные координаты
+        Log.w("MapActivity", "❌ Координаты не найдены для '$stopName', используем приблизительные")
+        return getApproximateCoordinates(0)
+    }
+
+    private fun getApproximateCoordinates(index: Int): LatLng {
+        // Используем базовые координаты в зависимости от города маршрута
         val (start, end) = when (tripId) {
             1 -> Pair(LatLng(58.721262, 50.181554), LatLng(58.583651, 49.650495)) // Слободской → Киров
             2 -> Pair(LatLng(58.583651, 49.650495), LatLng(58.721262, 50.181554)) // Киров → Слободской
             3 -> Pair(LatLng(58.583651, 49.650495), LatLng(58.312207, 48.341900)) // Киров → Котельнич
             4 -> Pair(LatLng(58.312207, 48.341900), LatLng(58.583651, 49.650495)) // Котельнич → Киров
-            5 -> Pair(LatLng(58.583651, 49.650495), LatLng(56.224749, 51.079241)) // Киров → Вятские Поляны
-            6 -> Pair(LatLng(56.224749, 51.079241), LatLng(58.583651, 49.650495)) // Вятские Поляны → Киров
-            7 -> Pair(LatLng(58.583651, 49.650495), LatLng(57.592981, 48.969190)) // Киров → Советск
-            8 -> Pair(LatLng(57.592981, 48.969190), LatLng(58.583651, 49.650495)) // Советск → Киров
-            else -> Pair(LatLng(58.583651, 49.650495), LatLng(58.721262, 50.181554))
+            5 -> Pair(LatLng(58.583651, 49.650495), LatLng(57.592981, 48.969190)) // Киров → Советск
+            6 -> Pair(LatLng(57.592981, 48.969190), LatLng(58.583651, 49.650495)) // Советск → Киров
+            else -> Pair(LatLng(58.583651, 49.650495), LatLng(58.721262, 50.181554)) // По умолчанию
         }
 
+        // Распределяем точки равномерно по маршруту
         val progress = if (stops.size > 1) index.toDouble() / (stops.size - 1) else 0.5
-
         val lat = start.latitude + (end.latitude - start.latitude) * progress
         val lng = start.longitude + (end.longitude - start.longitude) * progress
-
-        Log.d("MapActivity", "Приблизительные координаты для '$stopName': прогресс=$progress, lat=$lat, lng=$lng")
 
         return LatLng(lat, lng)
     }

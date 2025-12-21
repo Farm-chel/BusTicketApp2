@@ -4,18 +4,18 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#F1F8E9"
-    android:padding="24dp">
+    android:padding="16dp"> <!-- Уменьшили padding с 24dp -->
 
     <!-- Заголовок -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="📧 Подтверждение Email"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:layout_marginBottom="20dp"
-        android:textColor="#1976D2" />
+        android:textSize="20sp"
+    android:textStyle="bold"
+    android:gravity="center"
+    android:layout_marginBottom="16dp"
+    android:textColor="#1976D2" />
 
     <!-- Email пользователя -->
     <TextView
@@ -25,11 +25,11 @@
         android:text="Код отправлен на: email@example.com"
         android:textSize="14sp"
         android:gravity="center"
-        android:layout_marginBottom="30dp"
-        android:textColor="#666"
-        android:padding="12dp"
-        android:background="#FFFFFF"
-        android:elevation="2dp" />
+        android:layout_marginBottom="20dp"
+    android:textColor="#666"
+    android:padding="8dp"
+    android:background="#FFFFFF"
+    android:elevation="2dp" />
 
     <!-- Инструкция -->
     <TextView
@@ -38,8 +38,8 @@
         android:text="Введите 6-значный код из письма:"
         android:textSize="16sp"
         android:gravity="center"
-        android:layout_marginBottom="20dp"
-        android:textColor="#424242" />
+        android:layout_marginBottom="16dp"
+    android:textColor="#424242" />
 
     <!-- Поля для ввода кода -->
     <LinearLayout
@@ -47,79 +47,85 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:layout_marginBottom="30dp">
+        android:layout_marginBottom="24dp">
 
         <EditText
             android:id="@+id/editCode1"
-            android:layout_width="50dp"
-            android:layout_height="70dp"
-            android:inputType="number"
-            android:maxLength="1"
-            android:gravity="center"
-            android:textSize="24sp"
-            android:background="@drawable/edit_text_background"
-            android:textColor="#000000"
-            android:layout_margin="4dp" />
+            android:layout_width="40dp"
+        android:layout_height="60dp"
+        android:inputType="number"
+        android:maxLength="1"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:background="@drawable/edit_text_background"
+        android:textColor="#000000"
+        android:layout_margin="2dp"
+        android:cursorVisible="false" />
 
         <EditText
             android:id="@+id/editCode2"
-            android:layout_width="50dp"
-            android:layout_height="70dp"
+            android:layout_width="40dp"
+            android:layout_height="60dp"
             android:inputType="number"
             android:maxLength="1"
             android:gravity="center"
-            android:textSize="24sp"
+            android:textSize="20sp"
             android:background="@drawable/edit_text_background"
             android:textColor="#000000"
-            android:layout_margin="4dp" />
+            android:layout_margin="2dp"
+            android:cursorVisible="false" />
 
         <EditText
             android:id="@+id/editCode3"
-            android:layout_width="50dp"
-            android:layout_height="70dp"
+            android:layout_width="40dp"
+            android:layout_height="60dp"
             android:inputType="number"
             android:maxLength="1"
             android:gravity="center"
-            android:textSize="24sp"
+            android:textSize="20sp"
             android:background="@drawable/edit_text_background"
             android:textColor="#000000"
-            android:layout_margin="4dp" />
+            android:layout_margin="2dp"
+            android:cursorVisible="false" />
 
         <EditText
             android:id="@+id/editCode4"
-            android:layout_width="50dp"
-            android:layout_height="70dp"
+            android:layout_width="40dp"
+            android:layout_height="60dp"
             android:inputType="number"
             android:maxLength="1"
             android:gravity="center"
-            android:textSize="24sp"
+            android:textSize="20sp"
             android:background="@drawable/edit_text_background"
             android:textColor="#000000"
-            android:layout_margin="4dp" />
+            android:layout_margin="2dp"
+            android:cursorVisible="false" />
 
         <EditText
             android:id="@+id/editCode5"
-            android:layout_width="50dp"
-            android:layout_height="70dp"
+            android:layout_width="40dp"
+            android:layout_height="60dp"
             android:inputType="number"
             android:maxLength="1"
             android:gravity="center"
-            android:textSize="24sp"
+            android:textSize="20sp"
             android:background="@drawable/edit_text_background"
             android:textColor="#000000"
-            android:layout_margin="4dp" />
+            android:layout_margin="2dp"
+            android:cursorVisible="false" />
 
         <EditText
             android:id="@+id/editCode6"
-            android:layout_width="50dp"
-            android:layout_height="70dp"
+            android:layout_width="40dp"
+            android:layout_height="60dp"
             android:inputType="number"
             android:maxLength="1"
             android:gravity="center"
-            android:textSize="24sp"
+            android:textSize="20sp"
             android:background="@drawable/edit_text_background"
             android:textColor="#000000"
-            android:layout_margin="4dp" />
+            android:layout_margin="2dp"
+            android:cursorVisible="false" />
 
     </LinearLayout>
 
@@ -129,11 +135,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="15:00"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:layout_marginBottom="10dp"
-        android:textColor="#F44336" />
+        android:textSize="18sp"
+    android:textStyle="bold"
+    android:gravity="center"
+    android:layout_marginBottom="8dp"
+    android:textColor="#F44336" />
 
     <!-- Сообщение об ошибке -->
     <TextView
@@ -143,31 +149,33 @@
         android:text=""
         android:textSize="14sp"
         android:gravity="center"
-        android:layout_marginBottom="20dp"
-        android:textColor="#F44336"
-        android:visibility="gone" />
+        android:layout_marginBottom="16dp"
+    android:textColor="#F44336"
+    android:visibility="gone" />
 
     <!-- Кнопка подтверждения -->
     <Button
         android:id="@+id/btnVerify"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:text="✅ Подтвердить"
-        android:textSize="18sp"
-        android:textColor="#FFFFFF"
-        android:background="#4CAF50"
-        android:layout_marginBottom="16dp" />
+        android:layout_height="55dp"
+    android:text="✅ Подтвердить"
+    android:textSize="16sp"
+    android:textColor="#FFFFFF"
+    android:background="#4CAF50"
+    android:layout_marginBottom="12dp"
+    android:padding="8dp" />
 
     <!-- Кнопка повторной отправки -->
     <Button
         android:id="@+id/btnResend"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:text="🔄 Отправить код еще раз"
-        android:textSize="16sp"
-        android:textColor="#FFFFFF"
-        android:background="#2196F3"
-        android:layout_marginBottom="20dp" />
+        android:layout_height="55dp"
+    android:text="🔄 Отправить код еще раз"
+    android:textSize="15sp"
+    android:textColor="#FFFFFF"
+    android:background="#2196F3"
+    android:layout_marginBottom="16dp"
+    android:padding="8dp" />
 
     <!-- Информация -->
     <TextView

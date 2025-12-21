@@ -10,7 +10,7 @@ data class Booking(
     val passengerName: String,
     val passengerEmail: String,
     val bookingDate: String,
-    val tripDate: String = getCurrentDate(),
+    val tripDate: String = getCurrentDate(), // Добавляем значение по умолчанию
     val status: String = "Активен",
     val seatNumber: Int = 0
 ) {
@@ -28,6 +28,17 @@ data class Booking(
                 outputFormat.format(parsedDate ?: Date())
             } catch (e: Exception) {
                 date
+            }
+        }
+
+        fun isTripDateValid(tripDate: String): Boolean {
+            return try {
+                val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                val trip = sdf.parse(tripDate)
+                val today = sdf.parse(getCurrentDate())
+                trip != null && today != null && !trip.before(today)
+            } catch (e: Exception) {
+                false
             }
         }
     }

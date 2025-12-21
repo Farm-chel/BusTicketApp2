@@ -61,8 +61,8 @@ class BookingActivity : AppCompatActivity() {
 
             tripsList.addAll(allTrips)
 
-            // Проверяем, есть ли все маршруты
-            if (tripsList.size < 8) {
+            // Проверяем, есть ли все 6 маршрутов
+            if (tripsList.size < 6) {
                 Toast.makeText(this, "⚠️ В базе только ${tripsList.size} рейсов", Toast.LENGTH_LONG).show()
             }
         } catch (e: Exception) {
@@ -110,7 +110,6 @@ class BookingActivity : AppCompatActivity() {
         return when {
             trip.fromCity.contains("Слободской") || trip.toCity.contains("Слободской") -> "🏙️"
             trip.fromCity.contains("Котельнич") || trip.toCity.contains("Котельнич") -> "🚂"
-            trip.fromCity.contains("Вятские") || trip.toCity.contains("Вятские") -> "🌲"
             trip.fromCity.contains("Советск") || trip.toCity.contains("Советск") -> "🏛️"
             else -> "🚌"
         }
@@ -123,10 +122,9 @@ class BookingActivity : AppCompatActivity() {
 
             // Определяем количество остановок
             val stopsCount = when (trip.id) {
-                1, 2 -> 42
-                3, 4 -> 70
-                5, 6 -> 66
-                7, 8 -> 42
+                1, 2 -> 42    // Слободской ↔ Киров
+                3, 4 -> 70    // Киров ↔ Котельнич
+                5, 6 -> 42    // Киров ↔ Советск
                 else -> 0
             }
 
@@ -147,8 +145,6 @@ class BookingActivity : AppCompatActivity() {
             departure == "14:00" && arrival == "15:00" -> "1 час"
             departure == "09:30" && arrival == "11:55" -> "2 ч 25 мин"
             departure == "16:00" && arrival == "18:25" -> "2 ч 25 мин"
-            departure == "07:30" && arrival == "14:30" -> "7 часов"
-            departure == "06:00" && arrival == "13:00" -> "7 часов"
             departure == "08:30" && arrival == "10:40" -> "2 ч 10 мин"
             departure == "11:40" && arrival == "13:50" -> "2 ч 10 мин"
             else -> {
@@ -217,7 +213,7 @@ class BookingActivity : AppCompatActivity() {
     }
 
     private fun bookSingleTicket() {
-        val intent = Intent(this, SimpleSeatSelectionActivity::class.java)
+        val intent = Intent(this, DateSelectionActivity::class.java)
         intent.putExtra("TRIP_ID", selectedTrip!!.id)
         intent.putExtra("USER_ID", currentUserId)
         startActivity(intent)
