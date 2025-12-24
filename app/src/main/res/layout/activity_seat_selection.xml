@@ -152,12 +152,13 @@
                 android:background="#BDBDBD"
                 android:layout_marginBottom="16dp" />
 
+            <!-- Изменяем GridLayout на 5 колонок для прохода -->
             <GridLayout
                 android:id="@+id/gridLayoutSeats"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:columnCount="4"
-                android:rowCount="12" />
+                android:columnCount="5"
+            android:rowCount="12" />
 
             <TextView
                 android:layout_width="match_parent"

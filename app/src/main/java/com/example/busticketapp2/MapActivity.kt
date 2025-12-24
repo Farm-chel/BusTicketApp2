@@ -68,6 +68,16 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         txtRouteTitle = findViewById(R.id.txtRouteTitle)
         btnBack = findViewById(R.id.btnBack)
 
+        // Определяем количество остановок в зависимости от маршрута
+        val totalStops = when (tripId) {
+            1, 2 -> 38  // Слободской ↔ Киров
+            3, 4 -> 70  // Киров ↔ Котельнич
+            5, 6 -> 51  // Киров ↔ Советск и Советск ↔ Киров
+            else -> stops.size
+        }
+
+        val loadedStops = stops.size
+
         // Эмодзи для маршрута
         val emoji = when (tripId) {
             1, 2 -> "🏙️"  // Слободской-Киров
@@ -76,7 +86,13 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             else -> "🗺️"
         }
 
-        txtRouteTitle.text = "$emoji Карта маршрута: $tripName\n🚏 Остановок: ${stops.size}"
+        val status = if (loadedStops == totalStops) {
+            "✅ Загружено: $loadedStops остановок"
+        } else {
+            "⚠️ Загружено: $loadedStops из $totalStops"
+        }
+
+        txtRouteTitle.text = "$emoji Карта маршрута: $tripName\n$status"
 
         btnBack.setOnClickListener {
             finish()

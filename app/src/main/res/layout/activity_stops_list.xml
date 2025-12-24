@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F5F5F5"
+    android:padding="8dp">
+
+    <!-- Заголовок -->
+    <TextView
+        android:id="@+id/txtStopsTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="🚏 Остановки маршрута"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:padding="16dp"
+        android:background="#4CAF50"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Информация -->
+    <TextView
+        android:id="@+id/txtStopsInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Всего остановок: 0"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:padding="12dp"
+        android:background="#E8F5E9"
+        android:textColor="#388E3C"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Список остановок -->
+    <ListView
+        android:id="@+id/listViewStops"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:divider="#E0E0E0"
+        android:dividerHeight="1dp"
+        android:padding="8dp" />
+
+    <!-- Кнопка назад -->
+    <Button
+        android:id="@+id/btnBackFromStops"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="⬅ Назад"
+        android:textSize="16sp"
+        android:textColor="#FFFFFF"
+        android:background="#757575"
+        android:padding="12dp"
+        android:layout_marginTop="8dp" />
+
+</LinearLayout>

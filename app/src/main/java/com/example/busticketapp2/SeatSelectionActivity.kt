@@ -4,6 +4,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -22,6 +23,7 @@ class SeatSelectionActivity : AppCompatActivity() {
 
     private var selectedSeat: Int = 0
     private val totalSeats = 45 // Всего мест в автобусе
+    private val seatsPerRow = 4 // 2 слева + 2 справа
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,55 +58,103 @@ class SeatSelectionActivity : AppCompatActivity() {
 
     private fun setupSeatGrid() {
         gridLayoutSeats.removeAllViews()
-        gridLayoutSeats.columnCount = 4 // 4 места в ряду
-        gridLayoutSeats.rowCount = (totalSeats + 3) / 4 // Расчет количества рядов
+        gridLayoutSeats.columnCount = 5 // 2 места слева + проход + 2 места справа
+
+        // Рассчитываем количество рядов: 45 мест / 4 места в ряду = 12 рядов
+        val totalRows = (totalSeats + seatsPerRow - 1) / seatsPerRow
+        gridLayoutSeats.rowCount = totalRows
 
         val bookedSeats = dbHelper.getBookedSeats(selectedTrip.id)
 
-        for (seatNumber in 1..totalSeats) {
-            val seatButton = Button(this).apply {
-                text = seatNumber.toString()
-                tag = seatNumber
-                textSize = 12f
-                setPadding(8, 8, 8, 8)
-
-                // Разные цвета в зависимости от статуса места
-                when {
-                    bookedSeats.contains(seatNumber) -> {
-                        setBackgroundColor(Color.RED)
-                        setTextColor(Color.WHITE)
-                        isEnabled = false
-                        text = "✗$seatNumber"
+        for (row in 0 until totalRows) {
+            // Создаем 5 колонок в каждом ряду
+            for (col in 0 until 5) {
+                // Если это колонка 2 (индекс 2) - это проход
+                if (col == 2) {
+                    // Создаем пустое View для прохода
+                    val aisleView = View(this).apply {
+                        layoutParams = GridLayout.LayoutParams().apply {
+                            width = 60 // Ширина прохода
+                            height = GridLayout.LayoutParams.WRAP_CONTENT
+                            columnSpec = GridLayout.spec(col)
+                            rowSpec = GridLayout.spec(row)
+                            setMargins(8, 4, 8, 4)
+                        }
+                        setBackgroundColor(Color.TRANSPARENT)
                     }
-                    seatNumber == selectedSeat -> {
-                        setBackgroundColor(Color.GREEN)
-                        setTextColor(Color.WHITE)
-                    }
-                    else -> {
-                        setBackgroundColor(Color.LTGRAY)
-                        setTextColor(Color.BLACK)
-                    }
+                    gridLayoutSeats.addView(aisleView)
+                    continue
                 }
 
-                // Обработчик выбора места
-                setOnClickListener {
-                    if (!bookedSeats.contains(seatNumber)) {
-                        selectedSeat = seatNumber
-                        updateSeatSelection()
+                // Рассчитываем номер места для текущей колонки
+                // Для колонок 0,1 - левая сторона, для 3,4 - правая сторона
+                val currentSeatNumber = when {
+                    col < 2 -> row * 2 + col + 1 // Левая сторона: места 1,2,5,6,9,10...
+                    else -> row * 2 + col - 1 // Правая сторона: места 3,4,7,8,11,12...
+                }
+
+                // Проверяем, не превышает ли номер места общее количество мест
+                if (currentSeatNumber <= totalSeats) {
+                    val seatButton = Button(this).apply {
+                        text = currentSeatNumber.toString()
+                        tag = currentSeatNumber
+                        textSize = 12f
+                        setPadding(8, 8, 8, 8)
+
+                        // Разные цвета в зависимости от статуса места
+                        when {
+                            bookedSeats.contains(currentSeatNumber) -> {
+                                setBackgroundColor(Color.RED)
+                                setTextColor(Color.WHITE)
+                                isEnabled = false
+                                text = "✗$currentSeatNumber"
+                            }
+                            currentSeatNumber == selectedSeat -> {
+                                setBackgroundColor(Color.GREEN)
+                                setTextColor(Color.WHITE)
+                                text = "✓$currentSeatNumber"
+                            }
+                            else -> {
+                                setBackgroundColor(Color.LTGRAY)
+                                setTextColor(Color.BLACK)
+                                text = currentSeatNumber.toString()
+                            }
+                        }
+
+                        // Обработчик выбора места
+                        setOnClickListener {
+                            if (!bookedSeats.contains(currentSeatNumber)) {
+                                selectedSeat = currentSeatNumber
+                                updateSeatSelection()
+                            }
+                        }
                     }
+
+                    val params = GridLayout.LayoutParams().apply {
+                        width = 0
+                        height = GridLayout.LayoutParams.WRAP_CONTENT
+                        columnSpec = GridLayout.spec(col, 1f)
+                        rowSpec = GridLayout.spec(row, 1f)
+                        setMargins(4, 4, 4, 4)
+                    }
+
+                    seatButton.layoutParams = params
+                    gridLayoutSeats.addView(seatButton)
+                } else {
+                    // Если места нет, создаем пустое View
+                    val emptyView = View(this).apply {
+                        layoutParams = GridLayout.LayoutParams().apply {
+                            width = 0
+                            height = GridLayout.LayoutParams.WRAP_CONTENT
+                            columnSpec = GridLayout.spec(col, 1f)
+                            rowSpec = GridLayout.spec(row, 1f)
+                            setMargins(4, 4, 4, 4)
+                        }
+                        setBackgroundColor(Color.TRANSPARENT)
+                    }
+                    gridLayoutSeats.addView(emptyView)
                 }
             }
-
-            val params = GridLayout.LayoutParams().apply {
-                width = 0
-                height = GridLayout.LayoutParams.WRAP_CONTENT
-                columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f)
-                rowSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f)
-                setMargins(4, 4, 4, 4)
-            }
-
-            seatButton.layoutParams = params
-            gridLayoutSeats.addView(seatButton)
         }
 
         updateSeatSelection()
@@ -115,25 +165,27 @@ class SeatSelectionActivity : AppCompatActivity() {
         val bookedSeats = dbHelper.getBookedSeats(selectedTrip.id)
 
         for (i in 0 until gridLayoutSeats.childCount) {
-            val seatButton = gridLayoutSeats.getChildAt(i) as Button
-            val seatNum = seatButton.tag as Int
+            val view = gridLayoutSeats.getChildAt(i)
+            if (view is Button) {
+                val seatNum = view.tag as? Int ?: continue
 
-            when {
-                bookedSeats.contains(seatNum) -> {
-                    seatButton.setBackgroundColor(Color.RED)
-                    seatButton.setTextColor(Color.WHITE)
-                    seatButton.isEnabled = false
-                    seatButton.text = "✗$seatNum"
-                }
-                seatNum == selectedSeat -> {
-                    seatButton.setBackgroundColor(Color.GREEN)
-                    seatButton.setTextColor(Color.WHITE)
-                    seatButton.text = "✓$seatNum"
-                }
-                else -> {
-                    seatButton.setBackgroundColor(Color.LTGRAY)
-                    seatButton.setTextColor(Color.BLACK)
-                    seatButton.text = seatNum.toString()
+                when {
+                    bookedSeats.contains(seatNum) -> {
+                        view.setBackgroundColor(Color.RED)
+                        view.setTextColor(Color.WHITE)
+                        view.isEnabled = false
+                        view.text = "✗$seatNum"
+                    }
+                    seatNum == selectedSeat -> {
+                        view.setBackgroundColor(Color.GREEN)
+                        view.setTextColor(Color.WHITE)
+                        view.text = "✓$seatNum"
+                    }
+                    else -> {
+                        view.setBackgroundColor(Color.LTGRAY)
+                        view.setTextColor(Color.BLACK)
+                        view.text = seatNum.toString()
+                    }
                 }
             }
         }
